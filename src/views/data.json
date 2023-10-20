@@ -1,0 +1,52 @@
+[
+    {
+      "id": 1,
+      "brand" : "adidas",
+      "name": "Item 1",
+      "price": 100000,
+      "description": "Description for Item 1",
+      "image": "https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg"
+    },
+    {
+      "id": 2,
+      "brand" : "adidas",
+      "name": "Item 2",
+      "price": 100000,
+      "description": "Description for Item 2",
+      "image" : "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/1/1/2a5a2e62-a027-4947-9dfa-ba4b9a160408.jpg"
+    },
+    {
+      "id": 3,
+      "brand": "nike",
+      "name": "Item 3",
+      "price": 100000,
+      "description": "Description for Item 3",
+      "image" : "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/fdded470-0ac5-4bd7-b41b-1bb63e161438/custom-nike-air-force-1-mid-by-you-shoes.png"
+    },
+    {
+      "id": 4,
+      "brand": "nike",
+      "name": "Item 4",
+      "price": 100000,
+      "description": "Description for Item 4",
+      "image" : "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1c64a0b0-a0aa-46dd-98e7-7ab5bfc09211/sb-pogo-skate-shoes-MpL6DC.png"
+    },
+    {
+      "id": 5,
+      "brand": "nike",
+      "name": "Item 5",
+      "price": 100000,
+      "description": "Description for Item 3",
+      "image" : "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png"
+    },
+    {
+      "id": 6,
+      "brand": "nike",
+      "name": "Item 6",
+      "price": 100000,
+      "description": "Description for Item 3",
+      "image" : "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/f820e398-3050-438b-91a9-e985898def17/spark-shoes-zPVQHZ.png"
+    }
+    
+  ]
+  
