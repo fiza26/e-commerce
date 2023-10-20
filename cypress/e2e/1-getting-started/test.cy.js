@@ -21,7 +21,7 @@ describe('Vue.js App Test', () => {
       // Assert that all items are displayed
       cy.get('.card-wrapper').should('have.length', 6); // Adjust the count according to your data
   
-      // You can add more test cases for different brands or additional interactions as needed
+      
     });
   
     it('Checks content after clicking the "More Details" button', () => {
@@ -31,11 +31,6 @@ describe('Vue.js App Test', () => {
       // Assert that the details page is displayed
       cy.url().should('include', '/ProductDetails/');
   
-      // You can add more assertions for the content on the details page
-      // For example, check for specific product details based on the URL
-  
-      // You may need to navigate back to the main page after this test case
-      // You can do that using the browser's back button or by adding Cypress commands
     });
   });
   
