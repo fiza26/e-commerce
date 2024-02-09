@@ -1,7 +1,14 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import data from "./data.json";
+
+import ImageSection from "../components/ImageSection.vue";
+import DataSection from "../components/DataSection.vue";
+import UserReview from "../components/UserReview.vue";
+import WriteReviewBtn from "../components/WriteReviewBtn.vue";
+import SubmitReviewBtn from "../components/SubmitReviewBtn.vue";
+import EditReviewBtn from "../components/EditReviewBtn.vue";
 
 const route = useRoute();
 const id = computed(() => route.params.id);
@@ -14,6 +21,10 @@ const quantity = ref(1);
 const cart = ref(JSON.parse(localStorage.getItem("cart")) || []);
 
 const cartNotif = ref(false);
+
+const tutup = () => {
+  cartNotif.value = false;
+};
 
 const addToCart = () => {
   cartNotif.value = true;
@@ -36,6 +47,10 @@ const addToCart = () => {
     cart.value.push(item);
   }
   localStorage.setItem("cart", JSON.stringify(cart.value));
+
+  setTimeout(() => {
+    window.location.reload();
+  }, 2000);
 };
 
 // Compute the total price of items in the cart
@@ -61,71 +76,79 @@ const submitReview = () => {
     id: Date(),
     review: review.value,
     productId: id.value,
-  }
+  };
   reviewData.value.push(reviewItem);
   localStorage.setItem("review", JSON.stringify(reviewData.value));
 };
 
 const filteredReviews = computed(() => {
-  return reviewData.value.filter((reviewItem) => reviewItem.productId === id.value);
+  return reviewData.value.filter(
+    (reviewItem) => reviewItem.productId === id.value
+  );
 });
+
+const editReviewAction = ref(false);
+
+onBeforeMount(() => {
+  if (filteredReviews.value.length > 0) {
+    review.value = filteredReviews.value[0].review;
+  } else {
+    review.value = "";
+  }
+});
+
+const editReview = () => {
+  editReviewAction.value = !editReviewAction.value;
+
+  const index = filteredReviews.value.findIndex(
+    (r) => r.productId === id.value
+  );
+  if (index !== -1) {
+    filteredReviews.value[index].review = review.value;
+    localStorage.setItem("review", JSON.stringify(reviewData.value));
+  }
+};
+
+const deleteReview = (reviewId) => {
+  const indexToRemove = reviewData.value.findIndex(
+    (item) => item.id === reviewId
+  );
+
+  if (indexToRemove !== -1) {
+    reviewData.value.splice(indexToRemove, 1);
+
+    localStorage.setItem("review", JSON.stringify(reviewData.value));
+  }
+};
+
+const reviewExisted = computed(() => {
+  const existed = filteredReviews.value.length > 0;
+  console.log("Review Existed:", existed);
+  return existed;
+});
+
+const updateQuantity = (newQuantity) => {
+  quantity.value = newQuantity;
+};
 
 </script>
 
 <template>
   <div class="container">
     <div class="big-card">
-      <div class="image-section">
-        <img :src="product.image" alt="" />
-      </div>
-      <div class="data-section">
-        <h2>{{ product.name }}</h2>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
-        <p v-if="cartNotif === true">{{ quantity }} Item added to the cart</p>
-        <input type="number" v-model="quantity" placeholder="Quantity" />
-        <button @click="addToCart">Add to Cart</button>
-        <RouterLink
-          :to="{
-            name: 'Checkout',
-            params: {
-              id: product.id,
-              quantity: quantity,
-              price: product.price,
-            },
-            query: {
-              cart: JSON.stringify(cart),
-              totalCartPrice: totalCartPrice,
-            },
-          }"
-        >
-          <button>Checkout</button>
-        </RouterLink>
-      </div>
+      <ImageSection :product="product" />
+      <DataSection :product="product" :cartNotif="cartNotif" :quantity="quantity" @closeNotif="tutup"
+        @updateQuantity="updateQuantity" @addToCart="addToCart" />
     </div>
     <div class="big-card-two">
-      <div class="user-review" v-for="allReview in filteredReviews" :key="allReview.id">
-        <div class="user-profile">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-            alt=""
-          />
-          <h4>Fiza Ahmad Baizuri</h4>
-        </div>
-        <p>
-          {{ allReview.review }}
-        </p>
-      </div>
-      <button @click="writeReviewState">Write Review</button>
-      <textarea
-        v-if="writeReviewField"
-        v-model="review"
-        name=""
-        id=""
-        rows="10"
-        placeholder="Write your review here..."
-      ></textarea>
-      <button @click="submitReview" v-if="writeReviewField">Submit Review</button>
+      <UserReview :filteredReviews="filteredReviews" @editReview="editReview" @deleteReview="deleteReview" />
+      <WriteReviewBtn @writeReviewState="writeReviewState" :reviewExisted="reviewExisted" />
+      <textarea v-if="writeReviewField && !reviewExisted" v-model="review" name="" id="" rows="10"
+        placeholder="Write your review here..."></textarea>
+      <SubmitReviewBtn @submitReview="submitReview" :writeReviewField="writeReviewField" :reviewExisted="reviewExisted" />
+      <textarea v-if="editReviewAction" v-model="review" name="" id="" rows="10"
+        placeholder="Write your review here..."></textarea>
+      <EditReviewBtn @editReview="editReview" :editReviewAction="editReviewAction" />
     </div>
   </div>
 </template>
@@ -139,6 +162,7 @@ const filteredReviews = computed(() => {
   padding: 10px;
   margin: 15px;
 }
+
 .big-card {
   display: flex;
   background-color: white;
@@ -156,55 +180,7 @@ const filteredReviews = computed(() => {
   border-right: 2px solid white;
   border-bottom: 2px solid white;
 }
-.big-card .image-section {
-  width: 400px;
-}
-.big-card .image-section img {
-  height: 100%; /* Use 100% to maintain aspect ratio */
-  width: 100%; /* Use 100% to maintain aspect ratio */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-  transform: scale(1);
-  transition: ease-in-out 0.5s;
-  border-right: 1px solid #1dd1a1;
-}
-.big-card .image-section img:hover {
-  transform: scale(1.2);
-  transition: ease-in-out 0.5s;
-}
-.big-card .data-section {
-  width: 500px;
-  margin: 50px;
-}
-.big-card .data-section input {
-  font-family: "Poppins", sans-serif;
-  width: 100%;
-  height: 30px;
-  border-radius: 15px;
-  border: none;
-  border: 1px solid #1dd1a1;
-  margin-top: 10px;
-  background-color: white;
-  cursor: pointer;
-  transition: cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
-  text-align: center;
-}
-.big-card .data-section button {
-  font-family: "Poppins", sans-serif;
-  width: 100%;
-  height: 30px;
-  border-radius: 15px;
-  border: none;
-  border: 1px solid #1dd1a1;
-  margin-top: 10px;
-  background-color: white;
-  cursor: pointer;
-  transition: cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
-}
-.big-card .data-section button:hover {
-  border: none;
-  background-color: #1dd1a1;
-  color: white;
-}
+
 .big-card-two {
   background-color: white;
   color: black;
@@ -221,23 +197,7 @@ const filteredReviews = computed(() => {
   border-bottom: 2px solid white;
   padding: 10px;
 }
-.big-card-two .user-review {
-  background-color: #dddd;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 15px;
-}
-.big-card-two .user-review .user-profile {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-}
-.big-card-two .user-review .user-profile img {
-  width: 50px;
-  border: 1px solid #1dd1a1;
-  border-radius: 50px;
-  margin-right: 10px;
-}
+
 .big-card-two button {
   font-family: "Poppins", sans-serif;
   width: 100%;
@@ -250,10 +210,12 @@ const filteredReviews = computed(() => {
   cursor: pointer;
   transition: cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
 }
+
 .big-card-two button:hover {
   background-color: #1dd1a1;
   color: white;
 }
+
 .big-card-two textarea {
   font-family: "Poppins", sans-serif;
   width: 100%;

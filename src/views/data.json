@@ -46,6 +46,30 @@
       "price": 100000,
       "description": "Description for Item 3",
       "image" : "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/f820e398-3050-438b-91a9-e985898def17/spark-shoes-zPVQHZ.png"
+    }, 
+    {
+      "id": 7,
+      "brand": "puma",
+      "name": "Item 7",
+      "price": 100000,
+      "description": "Description for Item 7",
+      "image": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/195338/01/sv01/fnd/IDN/fmt/png/BETTER-FOAM-Adore-Women's-Running-Shoes"
+    },
+    {
+      "id": 8,
+      "brand": "puma",
+      "name": "Item 8",
+      "price": 100000,
+      "description": "Description for Item 8",
+      "image": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/381983/01/sv01/fnd/IDN/fmt/png/Mayze-Sneakers-Women"
+    },
+    {
+      "id": 9,
+      "brand": "adidas",
+      "name": "Item 9",
+      "price": 100000,
+      "description": "Description for Item 9",
+      "image": "https://assets.adidas.com/images/w_600,f_auto,q_auto/bce4c93377ad4aea9fa3b30f822bf235_9366/Ultrabounce_Shoes_Blue_ID2247_01_standard.jpg"
     }
     
   ]

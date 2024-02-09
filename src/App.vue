@@ -9,9 +9,10 @@ const countItems = ref(true);
 
 const cart = computed(() => {
   if (cartNotif.value === true || countItems.value === true) {
-    return JSON.parse(localStorage.getItem("cart") || []);
+    return JSON.parse(localStorage.getItem("cart")) || [];
   }
 });
+
 
 const showCartNotif = () => {
   cartNotif.value = !cartNotif.value;
@@ -114,7 +115,6 @@ img {
 }
 .cart-notif {
   width: 300px;
-  height: 300px;
   padding: 10px;
   background-color: white;
   border: 1px solid #1dd1a1;
@@ -189,10 +189,10 @@ img {
 }
 @keyframes cart-notif {
   0% {
-    height: 100px;
+    /* height: 100px; */
   }
   100% {
-    height: 300px;
+    /* height: ; */
   }
 }
 @keyframes item-notif {
