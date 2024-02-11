@@ -48,9 +48,9 @@ const addToCart = () => {
   }
   localStorage.setItem("cart", JSON.stringify(cart.value));
 
-  setTimeout(() => {
-    window.location.reload();
-  }, 2000);
+  // setTimeout(() => {
+  //   window.location.reload();
+  // }, 2000);
 };
 
 // Compute the total price of items in the cart
@@ -137,7 +137,7 @@ const updateQuantity = (newQuantity) => {
   <div class="container">
     <div class="big-card">
       <ImageSection :product="product" />
-      <DataSection :product="product" :cartNotif="cartNotif" :quantity="quantity" @closeNotif="tutup"
+      <DataSection :product="product" :cartNotif="cartNotif" :quantity="quantity" @tutup="tutup"
         @updateQuantity="updateQuantity" @addToCart="addToCart" />
     </div>
     <div class="big-card-two">

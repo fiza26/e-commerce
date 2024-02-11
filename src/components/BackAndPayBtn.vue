@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
-const props = defineProps(['payState', 'useAddressState', 'saveAddressState', 'chooseAddressState', 'addressData']);
+const props = defineProps(['cart', 'payState', 'useAddressState', 'saveAddressState', 'chooseAddressState', 'addressData']);
 </script>
 
 <template>
@@ -8,8 +8,8 @@ const props = defineProps(['payState', 'useAddressState', 'saveAddressState', 'c
         <button v-if="useAddressState || saveAddressState" @click="$emit('backNewAddress')">
             Back
         </button>
-        <button v-if="saveAddressState || useAddressState && chooseAddressState" :disabled="addressData.length < 1"
-            @click="$emit('pay')">
+        <button v-if="saveAddressState || useAddressState && chooseAddressState && cart.length > 0"
+            :disabled="addressData.length < 1" @click="$emit('pay')">
             Pay
         </button>
     </div>

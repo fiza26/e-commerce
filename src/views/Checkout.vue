@@ -192,7 +192,7 @@ const processPayment = (paymentOption) => {
 <template>
   <div class="container">
     <div class="big-card">
-      <NoCartData :cartData="cartData" />
+      <NoCartData :cart="cart" />
       <ContentSection :payState="payState" :cart="cart" @removeItem="removeItem" />
       <Pricing :cart="cart" :payState="payState" :computedTotalCartPrice="computedTotalCartPrice" />
       <SetAddressBtn @setAddress="setAddress" :saveAddressState="saveAddressState" :addressState="addressState"
@@ -217,8 +217,9 @@ const processPayment = (paymentOption) => {
       <PayNow :indomaretState="indomaretState" :alfamartState="alfamartState" :briState="briState" :bcaState="bcaState"
         :bsiState="bsiState" :computedTotalCartPrice="computedTotalCartPrice"
         :processPaymentState="processpaymentState" />
-      <BackAndPayBtn :payState="payState" :useAddressState="useAddressState" :saveAddressState="saveAddressState"
-        @backNewAddress="backNewAddress" :chooseAddressState="chooseAddressState" :addressData="addressData" @pay="pay" />
+      <BackAndPayBtn :cart="cart" :payState="payState" :useAddressState="useAddressState"
+        :saveAddressState="saveAddressState" @backNewAddress="backNewAddress" :chooseAddressState="chooseAddressState"
+        :addressData="addressData" @pay="pay" />
     </div>
   </div>
 </template>

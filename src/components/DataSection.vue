@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 const props = defineProps(["product", "cartNotif", "quantity"]);
-const emits = defineEmits(['closeNotif', 'updateQuantity']);
+const emits = defineEmits(['tutup', 'updateQuantity']);
 
 const updateQuantity = (event) => {
   emits.updateQuantity(event.target.value);
