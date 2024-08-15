@@ -1,11 +1,17 @@
 <script setup>
 import { ref, computed } from "vue";
-import { RouterLink, RouterView, useRoute } from "vue-router";
+import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
+import HomeView from "./views/HomeView.vue";
 
-const route = useRoute();
+const router = useRouter();
 
 const cartNotif = ref(false);
 const countItems = ref(true);
+
+const showCartNotif = () => {
+  cartNotif.value = !cartNotif.value;
+  countItems.value = !countItems.value;
+};
 
 const cart = computed(() => {
   if (cartNotif.value === true || countItems.value === true) {
@@ -13,19 +19,14 @@ const cart = computed(() => {
   }
 });
 
-
-const showCartNotif = () => {
-  cartNotif.value = !cartNotif.value;
-  countItems.value = !countItems.value;
-};
-
 const removeItem = (itemId) => {
   const indexToRemove = cart.value.findIndex((item) => item.id === itemId);
 
   if (indexToRemove !== -1) {
     cart.value.splice(indexToRemove, 1);
-
+    // window.location.reload();
     localStorage.setItem("cart", JSON.stringify(cart.value));
+    router.push({ name: 'home' });
     window.location.reload();
   }
 };
@@ -41,18 +42,15 @@ const totalCartPrice = computed(() => {
   <header>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Poppins&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Poppins&display=swap" rel="stylesheet" />
     <div class="wrapper">
       <nav>
-        <RouterLink to="/"><p>Home</p></RouterLink>
-        <img
-          @click="showCartNotif"
+        <RouterLink to="/">
+          <p>Home</p>
+        </RouterLink>
+        <img @click="showCartNotif"
           src="https://static.vecteezy.com/system/resources/previews/019/787/018/original/shopping-cart-icon-shopping-basket-on-transparent-background-free-png.png"
-          alt=""
-        />
+          alt="" />
         <div class="cart-notif" v-if="cartNotif">
           <div class="data-notif" v-if="cart.length === 0">
             <h3>No Data</h3>
@@ -61,17 +59,15 @@ const totalCartPrice = computed(() => {
             <p>{{ item.name }}</p>
             <p class="remove-icon" @click="removeItem(item.id)">X</p>
           </div>
-          <RouterLink
-            :to="{
-              name: 'Checkout',
-              query: {
-                cart: JSON.stringify(cart),
-                totalCartPrice: totalCartPrice,
-              },
-            }"
-          >
-            <button v-if="cart.length > 0">Checkout</button></RouterLink
-          >
+          <RouterLink :to="{
+            name: 'Checkout',
+            query: {
+              cart: JSON.stringify(cart),
+              totalCartPrice: totalCartPrice,
+            },
+          }">
+            <button v-if="cart.length > 0">Checkout</button>
+          </RouterLink>
         </div>
         <div class="total-items">
           <p>{{ cart.length }}</p>
@@ -89,10 +85,12 @@ const totalCartPrice = computed(() => {
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: "Poppins", sans-serif;
   background-color: #dddd;
 }
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -105,14 +103,17 @@ nav {
   -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
   margin-bottom: 40px;
 }
+
 nav a {
   text-decoration: none;
   color: black;
 }
+
 img {
   height: 40%;
   cursor: pointer;
 }
+
 .cart-notif {
   width: 300px;
   padding: 10px;
@@ -129,14 +130,17 @@ img {
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
 }
+
 .cart-notif p {
   border-radius: 15px;
   margin-bottom: 5px;
 }
+
 .data-notif {
   display: flex;
   justify-content: center;
 }
+
 .item-section {
   display: flex;
   justify-content: space-between;
@@ -149,6 +153,7 @@ img {
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
+
 .item-section .remove-icon {
   display: flex;
   align-items: center;
@@ -159,6 +164,7 @@ img {
   height: 30px;
   cursor: pointer;
 }
+
 .cart-notif button {
   background-color: white;
   border: 1px solid #1dd1a1;
@@ -170,11 +176,13 @@ img {
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
+
 .cart-notif button:hover {
   background-color: #1dd1a1;
   color: white;
   transition: ease-in-out 0.3s;
 }
+
 .total-items {
   position: absolute;
   top: 25px;
@@ -187,27 +195,33 @@ img {
   width: 30px;
   text-align: center;
 }
+
 @keyframes cart-notif {
   0% {
     /* height: 100px; */
   }
+
   100% {
     /* height: ; */
   }
 }
+
 @keyframes item-notif {
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
 }
+
 @media screen and (max-width: 768px) {
   .total-items {
     right: 153px;
   }
 }
+
 @media screen and (max-width: 764px) {
   .total-items {
     right: 83px;

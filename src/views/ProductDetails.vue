@@ -47,10 +47,6 @@ const addToCart = () => {
     cart.value.push(item);
   }
   localStorage.setItem("cart", JSON.stringify(cart.value));
-
-  // setTimeout(() => {
-  //   window.location.reload();
-  // }, 2000);
 };
 
 // Compute the total price of items in the cart

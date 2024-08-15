@@ -9,7 +9,7 @@ const props = defineProps(['filteredReviews']);
     <div class="user-profile">
       <div class="img-name">
         <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
-        <h4>Fiza Ahmad Baizuri</h4>
+        <h4>User</h4>
       </div>
       <div class="action-button">
         <span @click="$emit('editReview', 'allReview.id')">Edit</span>
