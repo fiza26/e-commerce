@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount, watch } from "vue";
 import { useRoute } from "vue-router";
 import data from "./data.json";
 
@@ -47,6 +47,9 @@ const addToCart = () => {
     cart.value.push(item);
   }
   localStorage.setItem("cart", JSON.stringify(cart.value));
+  setTimeout(function () {
+    location.reload()
+  }, 1500)
 };
 
 // Compute the total price of items in the cart
@@ -141,7 +144,8 @@ const updateQuantity = (newQuantity) => {
       <WriteReviewBtn @writeReviewState="writeReviewState" :reviewExisted="reviewExisted" />
       <textarea v-if="writeReviewField && !reviewExisted" v-model="review" name="" id="" rows="10"
         placeholder="Write your review here..."></textarea>
-      <SubmitReviewBtn @submitReview="submitReview" :writeReviewField="writeReviewField" :reviewExisted="reviewExisted" />
+      <SubmitReviewBtn @submitReview="submitReview" :writeReviewField="writeReviewField"
+        :reviewExisted="reviewExisted" />
       <textarea v-if="editReviewAction" v-model="review" name="" id="" rows="10"
         placeholder="Write your review here..."></textarea>
       <EditReviewBtn @editReview="editReview" :editReviewAction="editReviewAction" />

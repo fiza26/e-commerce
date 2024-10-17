@@ -1,22 +1,19 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
-import HomeView from "./views/HomeView.vue";
 
 const router = useRouter();
 
 const cartNotif = ref(false);
-const countItems = ref(true);
+
+const cart = ref(JSON.parse(localStorage.getItem("cart")) || []);
 
 const showCartNotif = () => {
   cartNotif.value = !cartNotif.value;
-  countItems.value = !countItems.value;
 };
 
-const cart = computed(() => {
-  if (cartNotif.value === true || countItems.value === true) {
-    return JSON.parse(localStorage.getItem("cart")) || [];
-  }
+const calculateCartLength = computed(() => {
+    return cart.value ? cart.value.length : 0;
 });
 
 const removeItem = (itemId) => {
@@ -24,10 +21,7 @@ const removeItem = (itemId) => {
 
   if (indexToRemove !== -1) {
     cart.value.splice(indexToRemove, 1);
-    // window.location.reload();
     localStorage.setItem("cart", JSON.stringify(cart.value));
-    router.push({ name: 'home' });
-    window.location.reload();
   }
 };
 
@@ -70,7 +64,7 @@ const totalCartPrice = computed(() => {
           </RouterLink>
         </div>
         <div class="total-items">
-          <p>{{ cart.length }}</p>
+          <p>{{ calculateCartLength }}</p>
         </div>
       </nav>
     </div>
