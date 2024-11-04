@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch } from "vue";
-import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
+import { ref, computed } from "vue";
+import { RouterLink, RouterView, useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -13,7 +13,7 @@ const showCartNotif = () => {
 };
 
 const calculateCartLength = computed(() => {
-    return cart.value ? cart.value.length : 0;
+  return cart.value ? cart.value.length : 0;
 });
 
 const removeItem = (itemId) => {
@@ -110,6 +110,7 @@ img {
 
 .cart-notif {
   width: 300px;
+  height: 300px;
   padding: 10px;
   background-color: white;
   border: 1px solid #1dd1a1;
@@ -119,6 +120,7 @@ img {
   z-index: 1;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  overflow: scroll;
   transition: ease-in-out;
   animation-name: cart-notif;
   animation-duration: 0.5s;
@@ -192,11 +194,11 @@ img {
 
 @keyframes cart-notif {
   0% {
-    /* height: 100px; */
+    height: 50px;
   }
 
   100% {
-    /* height: ; */
+    height: 300px;
   }
 }
 
