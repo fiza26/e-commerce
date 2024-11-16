@@ -118,4 +118,11 @@ const updateQuantity = (event) => {
     transform: translate(-1rem, 1rem);
   }
 }
+
+@media (max-width: 768px) {
+  .big-card .data-section .item-added {
+    right: 1%;
+    width: 90%;
+  }
+}
 </style>
