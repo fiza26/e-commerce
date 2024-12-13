@@ -213,12 +213,20 @@ img {
 }
 
 @media screen and (max-width: 768px) {
+  .cart-notif {
+    right: 37px;
+  }
+
   .total-items {
     right: 153px;
   }
 }
 
 @media screen and (max-width: 764px) {
+  .cart-notif {
+    right: 37px;
+  }
+
   .total-items {
     right: 83px;
   }
